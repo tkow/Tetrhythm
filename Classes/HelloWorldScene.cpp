@@ -59,44 +59,44 @@ bool HelloWorld::init()
     CenterPos = Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y);
     
     //背景
-    auto haikei = Sprite::create("/Users/admin/akatsuki/test/Resources/haikei.png");
+    auto haikei = Sprite::create("haikei.png");
     haikei->setPosition(CenterPos);
     this->addChild(haikei);
     
     //枠
-    auto flame = Sprite::create("/Users/admin/akatsuki/test/Resources/waku2.png");
+    auto flame = Sprite::create("waku2.png");
     flame->setPosition(FramePos);
     this->addChild(flame);
     
     //バー
-    auto bar = Sprite::create("/Users/admin/akatsuki/test/Resources/bar.png");
+    auto bar = Sprite::create("bar.png");
     bar->setAnchorPoint(Vec2(0,0));
     bar->setPosition(BarPos_Origin);
     this->addChild(bar);
     
     //トーン
-    auto tone = Sprite::create("/Users/admin/akatsuki/test/Resources/tone.png");
+    auto tone = Sprite::create("tone.png");
     //tone->setPosition(Vec2(BarPos_Center.x + 50,BarPos_Center.y));
     tone->setPosition(Vec2(BarPos_Top.x + 50,BarPos_Top.y));
     this->addChild(tone);
     
     //next文字
-    auto next_moji = Sprite::create("/Users/admin/akatsuki/test/Resources/NEXTmoji.png");
+    auto next_moji = Sprite::create("NEXTmoji.png");
     next_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 50));
     this->addChild(next_moji);
     
     //next枠
-    auto next = Sprite::create("/Users/admin/akatsuki/test/Resources/next2.png");
+    auto next = Sprite::create("next2.png");
     next->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 200));
     this->addChild(next);
     
     //score文字
-    auto score_moji = Sprite::create("/Users/admin/akatsuki/test/Resources/SCOREmoji.png");
+    auto score_moji = Sprite::create("SCOREmoji.png");
     score_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 400));
     this->addChild(score_moji);
     
     //score枠
-    auto score = Sprite::create("/Users/admin/akatsuki/test/Resources/score2.png");
+    auto score = Sprite::create("score2.png");
     score->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 500));
     this->addChild(score);
     

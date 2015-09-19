@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/bullet/LinearMath/btQuickprof.cpp \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/bullet/LinearMath/btQuickprof.h \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/bullet/LinearMath/btScalar.h \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/bullet/LinearMath/btAlignedAllocator.h
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/LinearMath/btQuickprof.cpp \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/LinearMath/btQuickprof.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/LinearMath/btScalar.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/LinearMath/btAlignedAllocator.h

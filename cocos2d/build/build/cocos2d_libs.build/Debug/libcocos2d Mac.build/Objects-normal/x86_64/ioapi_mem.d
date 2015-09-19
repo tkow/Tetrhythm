@@ -1,5 +1,5 @@
 dependencies: \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/unzip/ioapi_mem.cpp \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/unzip/ioapi_mem.h \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/unzip/ioapi.h \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/build/../cocos/platform/CCPlatformConfig.h
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/unzip/ioapi_mem.cpp \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/unzip/ioapi_mem.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/unzip/ioapi.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../cocos/platform/CCPlatformConfig.h

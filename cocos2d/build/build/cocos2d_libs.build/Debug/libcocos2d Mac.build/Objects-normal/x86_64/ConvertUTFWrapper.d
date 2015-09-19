@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/ConvertUTF/ConvertUTFWrapper.cpp \
-  /Users/admin/akatsuki/Tetrhythm/cocos2d/external/ConvertUTF/ConvertUTF.h
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/ConvertUTF/ConvertUTFWrapper.cpp \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/ConvertUTF/ConvertUTF.h

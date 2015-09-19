@@ -1,2 +1,3 @@
-dependencies: /Users/admin/akatsuki/Tetrhythm/Classes/HelloWorldScene.cpp \
-  /Users/admin/akatsuki/Tetrhythm/Classes/HelloWorldScene.h
+dependencies: \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/Classes/HelloWorldScene.cpp \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/Classes/HelloWorldScene.h
