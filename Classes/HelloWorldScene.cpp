@@ -51,15 +51,15 @@ bool HelloWorld::init()
     //画像の配置
     //座標定義
     FramePos = Vec2(512,378);
-    BarPos_Origin = Vec2(200,FramePos.y/2);
+    BarPos_Origin = Vec2(200,FramePos.y - 340);
     BarPos_Center = Vec2(BarPos_Origin.x,FramePos.y);
-    BarPos_Top = Vec2(BarPos_Origin.x,FramePos.y*1.5);
+    BarPos_Top = Vec2(BarPos_Origin.x,BarPos_Center.y + 340);
     //BarPos = Vec2(262,378);
     MinoPos = Vec2(364,62);
     CenterPos = Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y);
     
     //背景
-    auto haikei = Sprite::create("/Users/admin/akatsuki/test/Resources/haikei.png");
+    /*auto haikei = Sprite::create("/Users/admin/akatsuki/test/Resources/haikei.png");
     haikei->setPosition(CenterPos);
     this->addChild(haikei);
     
@@ -76,8 +76,9 @@ bool HelloWorld::init()
     
     //トーン
     auto tone = Sprite::create("/Users/admin/akatsuki/test/Resources/tone.png");
-    tone->setPosition(BarPos_Center);
-    this->addChild(tone);
+    //tone->setPosition(Vec2(BarPos_Center.x + 50,BarPos_Center.y));
+    tone->setPosition(Vec2(BarPos_Top.x + 50,BarPos_Top.y));
+    this->addChild(tone);*/
     
     
     return true;
