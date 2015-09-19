@@ -27,6 +27,16 @@ public:
    void	Tetris::move_right();
    void Tetris::move_bottom();
    void Tetris::check();
+   bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
+   double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
+  
+private:
+	     static std::map<cocos2d::EventKeyboard::KeyCode,
+	         std::chrono::high_resolution_clock::time_point> keys;
+	     cocos2d::Label * label;
+
+public:  virtual void update(float delta) override;
+
 	// implement the "static create()" method manually
 	CREATE_FUNC(Tetris);
 };
