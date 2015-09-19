@@ -48,29 +48,37 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
+    //画像の配置
+    //座標定義
+    FramePos = Vec2(512,378);
+    BarPos_Origin = Vec2(200,FramePos.y/2);
+    BarPos_Center = Vec2(BarPos_Origin.x,FramePos.y);
+    BarPos_Top = Vec2(BarPos_Origin.x,FramePos.y*1.5);
+    //BarPos = Vec2(262,378);
+    MinoPos = Vec2(364,62);
+    CenterPos = Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y);
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    //背景
+    auto haikei = Sprite::create("/Users/admin/akatsuki/test/Resources/haikei.png");
+    haikei->setPosition(CenterPos);
+    this->addChild(haikei);
     
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    //枠
+    auto flame = Sprite::create("/Users/admin/akatsuki/test/Resources/waku2.png");
+    flame->setPosition(FramePos);
+    this->addChild(flame);
+    
+    //バー
+    auto bar = Sprite::create("/Users/admin/akatsuki/test/Resources/bar.png");
+    bar->setAnchorPoint(Vec2(0,0));
+    bar->setPosition(BarPos_Origin);
+    this->addChild(bar);
+    
+    //トーン
+    auto tone = Sprite::create("/Users/admin/akatsuki/test/Resources/tone.png");
+    tone->setPosition(BarPos_Center);
+    this->addChild(tone);
+    
     
     return true;
 }
