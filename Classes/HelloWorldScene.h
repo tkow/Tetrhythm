@@ -15,6 +15,17 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
+
+	void update();
+	
+	cocos2d::CCDrawNode* draw;
+	Size screenSize;
+
+	float drawStartX;
+	float drawY;
+	float drawEndX;
+	bool upFlag;
+
 };
 
 #endif // __HELLOWORLD_SCENE_H__

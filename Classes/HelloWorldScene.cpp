@@ -2,6 +2,10 @@
 
 USING_NS_CC;
 
+using namespace std;
+
+
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -47,32 +51,56 @@ bool HelloWorld::init()
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
-
+	
     /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+	screenSize = Director::getInstance()->getVisibleSize();
+
+	Sprite* sprite = Sprite::create();
+	sprite->setTextureRect(Rect(0, 0, 50, screenSize.height*0.8));
+	sprite->setColor(Color3B::WHITE);
     
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+	float boxX = screenSize.width * 0.8;
+	float boxY = screenSize.height / 2;
+	sprite->setPosition(Point(boxX, boxY));
+	this->addChild(sprite);
 
-    // add the label as a child to this layer
-    this->addChild(label, 1);
+	CCSize size = CCDirector::sharedDirector()->getWinSize();
+	CCDrawNode* node = CCDrawNode::create();
+	node->setPosition(ccp(size.width / 2, size.height / 2));
+	this->addChild(node);
 
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+	draw = CCDrawNode::create();
+	draw->setPosition(ccp(0, 0));
+	draw->setTag(1);
+	this->addChild(draw);
 
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	drawStartX = screenSize.width * 0.8 - 25;
+	drawY = screenSize.height / 2;
+	drawEndX = screenSize.width * 0.8 + 25;
 
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+	this->scheduleUpdate();
     
-    return true;
+	upFlag = false;
+	return true;
+}
+
+void HelloWorld::update() {
+	
+	if (!upFlag) {
+		drawY-=2;
+	}else {
+		drawY+=2;
+	}
+	draw->clear();
+	draw->drawSegment(ccp(drawStartX, drawY),
+		ccp(drawEndX, drawY), 2, ccc4FFromccc3B(Color3B::RED));
+
+	/*if (screenSize.height * 0.2 > drawY) {
+		upFlag = true;
+	}else if(screenSize.height * 0.8 < drawY){
+		upFlag = false;
+	}*/
 }
 
 
