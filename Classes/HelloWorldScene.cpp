@@ -1,5 +1,11 @@
 #include "HelloWorldScene.h"
 
+#include "SimpleAudioEngine.h"
+using namespace CocosDenshion;
+
+
+
+
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -26,6 +32,11 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+    auto audio = SimpleAudioEngine::getInstance();
+    audio->preloadBackgroundMusic("/Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/Resources/bgm.mp3");
+    // BGMの再生
+    audio->playBackgroundMusic("/Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/Resources/bgm.mp3", true);
 
     label = cocos2d::Label::createWithSystemFont("Press the CTRL Key","Arial",32);
     label->setPosition(this->getBoundingBox().getMidX(),this->getBoundingBox().getMidY());
