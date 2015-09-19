@@ -27,9 +27,6 @@ bool HelloWorld::init()
         return false;
     }
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
     label = cocos2d::Label::createWithSystemFont("Press the CTRL Key","Arial",32);
     label->setPosition(this->getBoundingBox().getMidX(),this->getBoundingBox().getMidY());
     addChild(label);
@@ -65,29 +62,43 @@ bool HelloWorld::isKeyPressed(EventKeyboard::KeyCode code) {
     return false;
 }
 
-double HelloWorld::keyPressedDuration(EventKeyboard::KeyCode code) {
-    if(!isKeyPressed(EventKeyboard::KeyCode::KEY_CTRL))
-        return 0;  // Not pressed, so no duration obviously
-
-    // Return the amount of time that has elapsed between now and when the user
-    // first started holding down the key in milliseconds
-    // Obviously the start time is the value we hold in our std::map keys
-    return std::chrono::duration_cast<std::chrono::milliseconds>
-            (std::chrono::high_resolution_clock::now() - keys[code]).count();
-}
+// double HelloWorld::keyPressedDuration(EventKeyboard::KeyCode code) {
+//     if(!isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW))
+//         return 0;  // Not pressed, so no duration obviously
+//
+//     // Return the amount of time that has elapsed between now and when the user
+//     // first started holding down the key in milliseconds
+//     // Obviously the start time is the value we hold in our std::map keys
+//     return std::chrono::duration_cast<std::chrono::milliseconds>
+//             (std::chrono::high_resolution_clock::now() - keys[code]).count();
+// }
 
 void HelloWorld::update(float delta) {
     // Register an update function that checks to see if the CTRL key is pressed
     // and if it is displays how long, otherwise tell the user to press it
     Node::update(delta);
-    if(isKeyPressed(EventKeyboard::KeyCode::KEY_CTRL)) {
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_UP_ARROW)) {
         std::stringstream ss;
-        ss << "Control key has been pressed for " <<
-            keyPressedDuration(EventKeyboard::KeyCode::KEY_CTRL) << " ms";
+        ss << "UP key has been pressed";
         label->setString(ss.str().c_str());
-    }
-    else
+    } else
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_DOWN_ARROW)) {
+        std::stringstream ss;
+        ss << "DOWN key has been pressed";
+        label->setString(ss.str().c_str());
+    } else
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_LEFT_ARROW)) {
+        std::stringstream ss;
+        ss << "LEFT key has been pressed";
+        label->setString(ss.str().c_str());
+    } else
+    if(isKeyPressed(EventKeyboard::KeyCode::KEY_RIGHT_ARROW)) {
+        std::stringstream ss;
+        ss << "RIGHT key has been pressed";
+        label->setString(ss.str().c_str());
+    } else {
         label->setString("Press the CTRL Key");
+    }
 }
 // Because cocos2d-x requres createScene to be static, we need to make other non-pointer members static
 std::map<cocos2d::EventKeyboard::KeyCode,
