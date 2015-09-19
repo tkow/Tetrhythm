@@ -1,0 +1,25 @@
+dependencies: \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionDispatch/btEmptyCollisionAlgorithm.cpp \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionDispatch/btEmptyCollisionAlgorithm.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//BroadphaseCollision/btCollisionAlgorithm.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btScalar.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btAlignedObjectArray.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btAlignedAllocator.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//BroadphaseCollision/btDispatcher.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//NarrowPhaseCollision/btPersistentManifold.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btVector3.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btMinMax.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btTransform.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btMatrix3x3.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btQuaternion.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btQuadWord.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//NarrowPhaseCollision/btManifoldPoint.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btTransformUtil.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//CollisionDispatch/btManifoldResult.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//CollisionDispatch/btCollisionObjectWrapper.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//CollisionDispatch/btCollisionObject.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btMotionState.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h

@@ -9,11 +9,18 @@ public:
     static cocos2d::Scene* createScene();
 
     virtual bool init();
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+
+    bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
+    double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
-};
 
+private:
+    static std::map<cocos2d::EventKeyboard::KeyCode,
+        std::chrono::high_resolution_clock::time_point> keys;
+    cocos2d::Label * label;
+public:
+    virtual void update(float delta) override;
+};
 #endif // __HELLOWORLD_SCENE_H__
