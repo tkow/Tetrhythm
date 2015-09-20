@@ -81,9 +81,9 @@ bool HelloWorld::init()
     this->addChild(tone);
     
     //next文字
-    auto next_moji = Sprite::create("NEXTmoji.png");
-    next_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 50));
-    this->addChild(next_moji);
+  // auto next_moji = Sprite::create("NEXTmoji.png");
+   // next_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 50));
+   // this->addChild(next_moji);
     
     //next枠
     auto next = Sprite::create("next2.png");
@@ -91,9 +91,9 @@ bool HelloWorld::init()
     this->addChild(next);
     
     //score文字
-    auto score_moji = Sprite::create("SCOREmoji.png");
-    score_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 400));
-    this->addChild(score_moji);
+   // auto score_moji = Sprite::create("SCOREmoji.png");
+   // score_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 400));
+   // this->addChild(score_moji);
     
     //score枠
     auto score = Sprite::create("score2.png");

@@ -2,34 +2,48 @@
 #define __TETRIS_SCENE_H__
 
 #include "cocos2d.h"
+#include "mino.h"
 
 class Tetris : public cocos2d::Layer
 {
 public:
 	static cocos2d::Scene* createScene();
 
+	struct conponent {
+		int cposx = 0;
+		int cposy = 0;
+	};
+
 	virtual bool init();
 	const int nothing = 0;
 	const int mino = 1;
-	int posx;
-    int posy;
+	int targetposx=4;
+    int targetposy=0;
+	conponent minoexpand[4];
+	int targetcolor = 0;
 	const int maxx = 20;
 	const int maxy = 10;
 	int Width = 330;
 	int Height = 660;
+
+
+
 		//É{Å[Éh
    int bode[20][10];
    void onPaint(int posy,int posx,int width ,int height,int framepos);
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+   void menuCloseCallback(cocos2d::Ref* pSender);
    void	newblock();
-   void	move_left();
-   void	move_right();
+   bool	move_left();
+   bool	move_right();
    void move_bottom();
    void check();
-    bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
-    double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
-    
+   bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
+   double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
+   void createNewMino(cocos2d::Node*);
+   void newMino(Node* target,int color , cocos2d::Vec2 pos);
+ 
+    cocos2d::Scene* createSplite();
     //座標
     cocos2d::Vec2 FramePos;
     cocos2d::Vec2 BarPos_Origin;
@@ -37,7 +51,7 @@ public:
     cocos2d::Vec2 BarPos_Top;
     cocos2d::Vec2 MinoPos;
     cocos2d::Vec2 CenterPos;
-    
+	cocos2d::Node* nodes;
     
 private:
     static std::map<cocos2d::EventKeyboard::KeyCode,
