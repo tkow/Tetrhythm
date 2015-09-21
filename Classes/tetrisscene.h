@@ -10,8 +10,8 @@ public:
 	static cocos2d::Scene* createScene();
 
 	struct conponent {
-		int cposx = 0;
-		int cposy = 0;
+		int cposx ;
+		int cposy ;
 	};
 
 	virtual bool init();
@@ -19,7 +19,7 @@ public:
 	const int mino = 1;
 	int targetposx=4;
     int targetposy=0;
-	conponent minoexpand[4];
+	struct conponent minoexpand[4] = { {0,0} };
 	int targetcolor = 0;
 	const int maxx = 20;
 	const int maxy = 10;
@@ -36,7 +36,8 @@ public:
    void	newblock();
    bool	move_left();
    bool	move_right();
-   void move_bottom();
+   int move_bottom();
+   void lineDelete();
    void check();
    bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
    double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);

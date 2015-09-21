@@ -23,4 +23,7 @@
 #define  MinoPosW  496
 #define  MinoPosH  689
 
+#define  MinoPosBottomLX  364
+#define  MinoPosBottomLY  62
+
 #endif
