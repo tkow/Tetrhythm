@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "mino.h"
+#include "config.h"
 
 class Tetris : public cocos2d::Layer
 {
@@ -13,13 +14,37 @@ public:
 		int cposx;
 		int cposy;
 	};
+    Tetris() {
+		srand((unsigned int)time(NULL));
+
+		for (int y = 0; y < WIDTH_GRIDY; y++) {
+			for (int i = 0; i < WIDTH_GRIDX; i++) {
+				bode[y][i] = 0;
+				}
+			}
+
+
+		initRoutine(minoroutine);
+		//for (int i = 0; i < 7; i++) {
+		//	minoroutine[i] = { i + 1,  rand() % 4 };
+		//}
+		//for (int mix = 0; mix < 5000; mix++) {
+		//	int indexi = rand() % 7;
+		//	int indexj = rand() % 7;
+		//	if (indexi != indexj) {
+		//		auto temp = minoroutine[indexi];
+		//		minoroutine[indexi] = minoroutine[indexj];
+		//		minoroutine[indexj] = temp;
+		//	}
+		//}
+	}
 
 	virtual bool init();
-	const int nothing = 0;
-	const int mino = 1;
 	int targetposx = 4;
 	int targetposy = 0;
-	struct conponent minoexpand[4];
+    struct conponent minoexpand[4];
+	struct conponent minoroutine[7];
+	int routineindex = 0;
 	int targetcolor = 0;
 	const int maxx = 20;
 	const int maxy = 10;
@@ -45,9 +70,11 @@ public:
 	bool isKeyPressed(cocos2d::EventKeyboard::KeyCode);
 	double keyPressedDuration(cocos2d::EventKeyboard::KeyCode);
 	//void createNewMino(cocos2d::Node*);
-	void createNewMino(Node * minos, int randShape = rand() % 7 + 1,int direction= rand() % 4,bool rotate=false);
-	void newMino(Node* target, int color, cocos2d::Vec2 pos);
-	conponent* positionCheckArray(conponent* data,int shape, int direction);
+	void createNewMino(Node * minos, conponent minoex[4], int randShape = rand() % 7 + 1, int direction = rand() % 4, bool rotate = false, std::string label="target");
+	void newMino(Node* target, int color, cocos2d::Vec2 posadd, cocos2d::Vec2 posbase= cocos2d::Vec2(MinoPosW, MinoPosH));
+	void initRoutine(conponent routine[7]);
+	void nextMino(Node* minos);
+	conponent* positionCheckArray(conponent* data, int shape, int direction);
 	cocos2d::Scene* createSplite();
 	//座標
 	cocos2d::Vec2 FramePos;

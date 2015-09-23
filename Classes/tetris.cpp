@@ -20,19 +20,28 @@ USING_NS_CC;
 //}
 
 
-void Tetris::newblock() {
-	bode[19][6] = mino;
-	targetposy = 19;
-	targetposx = 6;
-}
 
+void Tetris::initRoutine(conponent minoroutine[7]) {
+	for (int i = 0; i < 7; i++) {
+		minoroutine[i] = { i + 1,  rand() % 4 };
+	}
+	for (int mix = 0; mix < 100; mix++) {
+		int indexi = rand() % 7;
+		int indexj = rand() % 7;
+		if (indexi != indexj) {
+			auto temp = minoroutine[indexi];
+			minoroutine[indexi] = minoroutine[indexj];
+			minoroutine[indexj] = temp;
+		}
+	}
+}
 
 //ç∂Ç…à⁄ìÆ
 bool Tetris::move_left() {
 
 	for (int i = 0; i < 4; i++) {
 
-		if (targetposx + minoexpand[i].cposx <= 0||bode[targetposy + minoexpand[i].cposy][targetposx + minoexpand[i].cposx-1]>0) {
+		if (targetposx + minoexpand[i].cposx <= 0 || bode[targetposy + minoexpand[i].cposy][targetposx + minoexpand[i].cposx - 1]>0) {
 			return false;
 		}
 	}
@@ -50,7 +59,7 @@ bool Tetris::move_left() {
 bool Tetris::move_right() {
 	for (int i = 0; i < 4; i++) {
 
-		if (targetposx + minoexpand[i].cposx >= WIDTH_GRIDX - 1 || bode[targetposy + minoexpand[i].cposy][targetposx + minoexpand[i].cposx+1]>0) {
+		if (targetposx + minoexpand[i].cposx >= WIDTH_GRIDX - 1 || bode[targetposy + minoexpand[i].cposy][targetposx + minoexpand[i].cposx + 1]>0) {
 			return false;
 		}
 	}
@@ -212,7 +221,7 @@ Scene* Tetris::createScene()
 
 bool Tetris::init()
 {
-	srand((unsigned int)time(NULL));
+	//srand((unsigned int)time(NULL));
 	if (!Layer::init())
 	{
 		return false;
@@ -232,7 +241,7 @@ bool Tetris::init()
 			//cocos2d::log("left");
 			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
 			auto targetmino = target->getChildByName("minos")->getChildByName("target");
-			auto moveTo = MoveBy::create(0, Vec2(-33, 0));			
+			auto moveTo = MoveBy::create(0, Vec2(-33, 0));
 			targetmino->runAction(moveTo);
 		}
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
@@ -247,17 +256,17 @@ bool Tetris::init()
 		{
 			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
 			auto targetminos = target->getChildByName("minos");
-		/*	auto targetmino = target->getChildByName("minos")->getChildByName("target");*/
+			/*	auto targetmino = target->getChildByName("minos")->getChildByName("target");*/
 
-			/*if (targetposx > 0 && targetposx < WIDTH_GRIDX - 1) {
-				if ((targetposx >= WIDTH_GRIDX - 2)&&(shape==Mino::kShape_i)&&(direction==0|| direction == 2)) {
-				
-				}
-				else {
-					
-				}
-				
-			}*/
+				/*if (targetposx > 0 && targetposx < WIDTH_GRIDX - 1) {
+					if ((targetposx >= WIDTH_GRIDX - 2)&&(shape==Mino::kShape_i)&&(direction==0|| direction == 2)) {
+
+					}
+					else {
+
+					}
+
+				}*/
 			rotateMino(targetminos);
 			//auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
 			//auto targetmino = target->getChildByName("minos")->getChildByName("target");
@@ -306,8 +315,7 @@ bool Tetris::init()
 
 			//}
 			targetminos->removeChildByName("target");
-
-			createNewMino(target->getChildByName("minos"));
+			createNewMino(targetminos,minoexpand ,minoroutine[routineindex].cposx, minoroutine[routineindex].cposy);
 
 
 
@@ -391,7 +399,9 @@ bool Tetris::init()
 	minos->setName("minos");
 
 
-	Tetris::createNewMino(minos);
+
+	createNewMino(minos,minoexpand,minoroutine[routineindex].cposx, minoroutine[routineindex].cposy);
+
 
 
 
@@ -404,70 +414,80 @@ bool Tetris::init()
 	return true;
 }
 
-void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate) {
+void Tetris::createNewMino(Node* minos, conponent minoex[4], int randShape, int direction, bool rotate,std::string label) {
 
 	//int randShape = rand() % 7+1;
-	shape = randShape;
-	this->direction = direction;
-	if (!rotate) {
+	
+	if (rotate) {
+		this->direction = direction;
+	}
+
+	if (!rotate&&label == "target") {
 		targetposx = 4;
 		targetposy = 0;
+		this->direction = direction;
+		shape = randShape;
 	}
 	auto FramePos = Vec2(MinoPosW, MinoPosH);
+
+	if (label == "nextMino") {
+		FramePos = Vec2(NextMinoPosW, NextMinoPosH);
+	}
+
 	auto target = cocos2d::Layer::create();
-	target->setName("target");
+	target->setName(label);
 	switch (randShape) {
 	case Mino::kShape_t:
 
 		switch (direction) {
 		case 0:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
 
-			//minoexpand[0] = { 0,0 };
-			//minoexpand[1] = { -1,1 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { 1,1 };
-			 positionCheckArray(minoexpand ,randShape, direction);
+			//minoex[0] = { 0,0 };
+			//minoex[1] = { -1,1 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { 1,1 };
+			positionCheckArray(minoex, randShape, direction);
 			break;
 		case 1:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
 
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { 0,1 };
-			minoexpand[2] = { 0 ,2 };
-			minoexpand[3] = { 1 ,1 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { 0,1 };
+			minoex[2] = { 0 ,2 };
+			minoex[3] = { 1 ,1 };*/
+			positionCheckArray(minoex, randShape, direction);
 			break;
 
 		case 2:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
 
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { -1,0 };
-			minoexpand[2] = { 1 ,0 };
-			minoexpand[3] = { 0 ,1 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { -1,0 };
+			minoex[2] = { 1 ,0 };
+			minoex[3] = { 0 ,1 };*/
+			positionCheckArray(minoex, randShape, direction);
 			break;
 		case 3:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
 
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { 0,1 };
-			minoexpand[2] = { -1 ,1 };
-			minoexpand[3] = { 0 ,2 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { 0,1 };
+			minoex[2] = { -1 ,1 };
+			minoex[3] = { 0 ,2 };*/
+			positionCheckArray(minoex, randShape, direction);
 			break;
 
 
@@ -479,27 +499,35 @@ void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate
 		switch (direction) {
 		case 0:
 		case 2:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			newMino(target, randShape, Vec2(0, -3 * MINO_SQ));
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { 0,1 };
-			minoexpand[2] = { 0,2 };
-			minoexpand[3] = { 0,3 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			if (label == "nextMino") {
+				FramePos += Vec2(-MINO_SQ/4, MINO_SQ/2+4);
+			}
+
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -3 * MINO_SQ),FramePos);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { 0,1 };
+			minoex[2] = { 0,2 };
+			minoex[3] = { 0,3 };*/
+			positionCheckArray(minoex, randShape, direction);
 			break;
 		case 1:
 		case 3:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(1 * MINO_SQ, 0));
-			newMino(target, randShape, Vec2(2 * MINO_SQ, 0));
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { -1,0 };
-			minoexpand[2] = { 1,0 };
-			minoexpand[3] = { 2,0 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			if (label == "nextMino") {
+			FramePos += Vec2(-MINO_SQ/1.5, -MINO_SQ);
+	       }
+
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(1 * MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(2 * MINO_SQ, 0),FramePos);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { -1,0 };
+			minoex[2] = { 1,0 };
+			minoex[3] = { 2,0 };*/
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 		}
@@ -508,50 +536,50 @@ void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate
 	case Mino::kShape_l:
 		switch (direction) {
 		case 0:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, -2 * MINO_SQ));
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { 0,1 };
-			minoexpand[2] = { 0,2 };
-			minoexpand[3] = { 1,2 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -2 * MINO_SQ),FramePos);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { 0,1 };
+			minoex[2] = { 0,2 };
+			minoex[3] = { 1,2 };*/
+			positionCheckArray(minoex, randShape, direction);
 			break;
 		case 1:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			//minoexpand[0] = { 0,0 };
-			//minoexpand[1] = { -1,0 };
-			//minoexpand[2] = { -1,1 };
-			//minoexpand[3] = { 1,0 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			//minoex[0] = { 0,0 };
+			//minoex[1] = { -1,0 };
+			//minoex[2] = { -1,1 };
+			//minoex[3] = { 1,0 };
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 		case 2:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			//minoexpand[0] = { 0,0 };
-			//minoexpand[1] = { -1,0 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { 0,2 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			//minoex[0] = { 0,0 };
+			//minoex[1] = { -1,0 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { 0,2 };
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 		case 3:
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			//minoexpand[0] = { 1,0 };
-			//minoexpand[1] = { 1,1 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { -1,1 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			//minoex[0] = { 1,0 };
+			//minoex[1] = { 1,1 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { -1,1 };
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 
@@ -562,53 +590,53 @@ void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate
 	case Mino::kShape_rl:
 		switch (direction) {
 		case 0:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			newMino(target, randShape, Vec2(-MINO_SQ, -2 * MINO_SQ));
-			//minoexpand[0] = { 0,0 };
-			//minoexpand[1] = { 0,1 };
-			//minoexpand[2] = { 0,2 };
-			//minoexpand[3] = { -1,2 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -2 * MINO_SQ),FramePos);
+			//minoex[0] = { 0,0 };
+			//minoex[1] = { 0,1 };
+			//minoex[2] = { 0,2 };
+			//minoex[3] = { -1,2 };
+			positionCheckArray(minoex, randShape, direction);
 			break;
 
 		case 1:
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
-			//minoexpand[0] = { -1,0 };
-			//minoexpand[1] = { -1,1 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { 1,1 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
+			//minoex[0] = { -1,0 };
+			//minoex[1] = { -1,1 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { 1,1 };
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 
 		case 2:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			//minoexpand[0] = { 0,0 };
-			//minoexpand[1] = { 1,0 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { 0,2 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			//minoex[0] = { 0,0 };
+			//minoex[1] = { 1,0 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { 0,2 };
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 		case 3:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { -1,0 };
-			minoexpand[2] = { 1,1 };
-			minoexpand[3] = { 1,0 };
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { -1,0 };
+			minoex[2] = { 1,1 };
+			minoex[3] = { 1,0 };
 */
-			  positionCheckArray(minoexpand ,randShape, direction);
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 
@@ -617,16 +645,18 @@ void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate
 		break;
 
 	case Mino::kShape_o:
-
-		newMino(target, randShape, Vec2(0, 0));
-		newMino(target, randShape, Vec2(MINO_SQ, 0));
-		newMino(target, randShape, Vec2(0, -MINO_SQ));
-		newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
-	/*	minoexpand[0] = { 0,0 };
-		minoexpand[1] = { 1,0 };
-		minoexpand[2] = { 0,1 };
-		minoexpand[3] = { 1,1 };*/
-		  positionCheckArray(minoexpand ,randShape, direction);
+		if (label == "nextMino") {
+			FramePos += Vec2(-MINO_SQ/2-3, -MINO_SQ/2 );
+		}
+		newMino(target, randShape, Vec2(0, 0),FramePos);
+		newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+		newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+		newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
+		/*	minoex[0] = { 0,0 };
+			minoex[1] = { 1,0 };
+			minoex[2] = { 0,1 };
+			minoex[3] = { 1,1 };*/
+		positionCheckArray(minoex, randShape, direction);
 
 
 		break;
@@ -635,29 +665,29 @@ void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate
 		switch (direction) {
 		case 0:
 		case 2:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
 
-			/*minoexpand[0] = { 0,0 };
-			minoexpand[1] = { -1,0 };
-			minoexpand[2] = { 0,1 };
-			minoexpand[3] = { 1,1 };*/
-			  positionCheckArray(minoexpand ,randShape, direction);
+			/*minoex[0] = { 0,0 };
+			minoex[1] = { -1,0 };
+			minoex[2] = { 0,1 };
+			minoex[3] = { 1,1 };*/
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 		case 1:
 		case 3:
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			//minoexpand[0] = { 1,0 };
-			//minoexpand[1] = { 1,1 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { 0,2 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			//minoex[0] = { 1,0 };
+			//minoex[1] = { 1,1 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { 0,2 };
+			positionCheckArray(minoex, randShape, direction);
 
 			break;
 		}
@@ -668,35 +698,44 @@ void Tetris::createNewMino(Node* minos, int randShape, int direction,bool rotate
 		switch (direction) {
 		case 0:
 		case 2:
-			newMino(target, randShape, Vec2(0, 0));
-			newMino(target, randShape, Vec2(MINO_SQ, 0));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			//minoexpand[0] = { 0,0 };
-			//minoexpand[1] = { 1, 0 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { -1,1 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(0, 0),FramePos);
+			newMino(target, randShape, Vec2(MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			//minoex[0] = { 0,0 };
+			//minoex[1] = { 1, 0 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { -1,1 };
+			positionCheckArray(minoex, randShape, direction);
 			break;
 		case 1:
 		case 3:
-			newMino(target, randShape, Vec2(-MINO_SQ, 0));
-			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -MINO_SQ));
-			newMino(target, randShape, Vec2(0, -2 * MINO_SQ));
-			//minoexpand[0] = { -1,0 };
-			//minoexpand[1] = { -1,1 };
-			//minoexpand[2] = { 0,1 };
-			//minoexpand[3] = { 0,2 };
-			  positionCheckArray(minoexpand ,randShape, direction);
+			newMino(target, randShape, Vec2(-MINO_SQ, 0),FramePos);
+			newMino(target, randShape, Vec2(-MINO_SQ, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -MINO_SQ),FramePos);
+			newMino(target, randShape, Vec2(0, -2 * MINO_SQ),FramePos);
+			//minoex[0] = { -1,0 };
+			//minoex[1] = { -1,1 };
+			//minoex[2] = { 0,1 };
+			//minoex[3] = { 0,2 };
+			positionCheckArray(minoex, randShape, direction);
 			break;
 		}
 		break;
 
 	}
 	minos->addChild(target);
+	if (!rotate) {
+		
+		
+		if (label == "target") {
+			routineindex = (routineindex + 1) % 7;
+			if (routineindex == 0) { initRoutine(minoroutine); }
+			nextMino(minos);
+		}
+	}
 }
-void Tetris::newMino(Node* target, int color, Vec2 pos) {
+void Tetris::newMino(Node* target, int color, Vec2 posadd, Vec2 posbase) {
 
 	Sprite* targetmino;
 	targetcolor = color;
@@ -724,7 +763,7 @@ void Tetris::newMino(Node* target, int color, Vec2 pos) {
 		break;
 	}
 	targetmino->setName("cmino");
-	targetmino->setPosition(Vec2(MinoPosW, MinoPosH) + pos);
+	targetmino->setPosition(posbase + posadd);
 	target->addChild(targetmino);
 }
 
@@ -738,34 +777,48 @@ void Tetris::rotateMino(Node* minos) {
 		}
 		else {
 			conponent tempmino[4];
-			positionCheckArray(tempmino,shape,(direction+1)%4);
+			positionCheckArray(tempmino, shape, (direction + 1) % 4);
 			for (int i = 0; i < (int)(sizeof(tempmino) / sizeof(conponent)); i++) {
-				if (bode[tempmino[i].cposy + targetposy][tempmino[i].cposx+targetposx]>0) {
+				if (bode[tempmino[i].cposy + targetposy][tempmino[i].cposx + targetposx]>0) {
 					return;
 				}
 			}
 
 		}
-	
+
 	}
 	else { return; }
 
-	Vec2 temppos= minos->getChildByName("target")->getPosition();
+	Vec2 temppos = minos->getChildByName("target")->getPosition();
 	minos->removeChildByName("target");
-	createNewMino(minos,shape,(direction+1)%4,true);
+	createNewMino(minos,minoexpand,shape, (direction + 1) % 4, true);
 	minos->getChildByName("target")->setPosition(temppos);
 }
 
-Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int direction)
-{
+//void Tetris::nextMino(conponent* nmino, int shape,int direction) {
+void Tetris::nextMino(Node* minos) {
+	/*conponent* nextmino;
+*/
+	/*try {}
+	catch(Exception){}*/
+	conponent nextexpand[4];
+	minos->removeChildByName("nextMino");
+	createNewMino(minos,nextexpand ,minoroutine[(routineindex ) % 7].cposx, minoroutine[(routineindex ) % 7].cposy, false, "nextMino");
+	/*positionCheckArray(nextmino,  shape, direction);*/
+
 	
+}
+
+Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist, int shape, int direction)
+{
+
 
 	switch (shape) {
 	case Mino::kShape_t:
 
 		switch (direction) {
 		case 0:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,1 };
 			minoexist[2] = { 0,1 };
@@ -773,7 +826,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 
 			break;
 		case 1:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 0,1 };
 			minoexist[2] = { 0 ,2 };
@@ -782,7 +835,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 			break;
 
 		case 2:
-			
+
 
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,0 };
@@ -791,7 +844,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 
 			break;
 		case 3:
-			
+
 
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 0,1 };
@@ -809,7 +862,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 		switch (direction) {
 		case 0:
 		case 2:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 0,1 };
 			minoexist[2] = { 0,2 };
@@ -817,7 +870,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 			break;
 		case 1:
 		case 3:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,0 };
 			minoexist[2] = { 1,0 };
@@ -831,14 +884,14 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 	case Mino::kShape_l:
 		switch (direction) {
 		case 0:
-	
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 0,1 };
 			minoexist[2] = { 0,2 };
 			minoexist[3] = { 1,2 };
 			break;
 		case 1:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,0 };
 			minoexist[2] = { -1,1 };
@@ -846,7 +899,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 
 			break;
 		case 2:
-		
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,0 };
 			minoexist[2] = { 0,1 };
@@ -854,7 +907,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 
 			break;
 		case 3:
-			
+
 			minoexist[0] = { 1,0 };
 			minoexist[1] = { 1,1 };
 			minoexist[2] = { 0,1 };
@@ -869,7 +922,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 	case Mino::kShape_rl:
 		switch (direction) {
 		case 0:
-		
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 0,1 };
 			minoexist[2] = { 0,2 };
@@ -877,7 +930,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 			break;
 
 		case 1:
-			
+
 			minoexist[0] = { -1,0 };
 			minoexist[1] = { -1,1 };
 			minoexist[2] = { 0,1 };
@@ -886,7 +939,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 			break;
 
 		case 2:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 1,0 };
 			minoexist[2] = { 0,1 };
@@ -894,7 +947,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 
 			break;
 		case 3:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,0 };
 			minoexist[2] = { 1,1 };
@@ -908,7 +961,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 
 	case Mino::kShape_o:
 
-		
+
 		minoexist[0] = { 0,0 };
 		minoexist[1] = { 1,0 };
 		minoexist[2] = { 0,1 };
@@ -921,7 +974,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 		switch (direction) {
 		case 0:
 		case 2:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { -1,0 };
 			minoexist[2] = { 0,1 };
@@ -929,7 +982,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 			break;
 		case 1:
 		case 3:
-			
+
 			minoexist[0] = { 1,0 };
 			minoexist[1] = { 1,1 };
 			minoexist[2] = { 0,1 };
@@ -943,7 +996,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 		switch (direction) {
 		case 0:
 		case 2:
-			
+
 			minoexist[0] = { 0,0 };
 			minoexist[1] = { 1, 0 };
 			minoexist[2] = { 0,1 };
@@ -951,7 +1004,7 @@ Tetris::conponent* Tetris::positionCheckArray(conponent* minoexist,int shape,int
 			break;
 		case 1:
 		case 3:
-			
+
 			minoexist[0] = { -1,0 };
 			minoexist[1] = { -1,1 };
 			minoexist[2] = { 0,1 };

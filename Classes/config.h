@@ -23,6 +23,9 @@
 #define  MinoPosW  496
 #define  MinoPosH  689
 
+#define  NextMinoPosW  850
+#define  NextMinoPosH  551
+
 #define  MinoPosBottomLX  364
 #define  MinoPosBottomLY  62
 
