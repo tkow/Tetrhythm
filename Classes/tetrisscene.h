@@ -52,7 +52,7 @@ public:
 	int Height = 660;
 	int shape;
 	int direction;
-
+	bool evalgood = false;
 
 	//É{Å[Éh
 	int bode[20][10];
@@ -63,7 +63,7 @@ public:
 	bool	move_left();
 	bool	move_right();
 	int move_bottom();
-	void lineDelete();
+	void lineAdd();
 	void check();
 	void upLine();
 	void rotateMino(Node* minos);

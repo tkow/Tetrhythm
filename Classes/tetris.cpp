@@ -181,8 +181,39 @@ void Tetris::upLine() {
 }
 
 
-void Tetris::lineDelete() {
+void Tetris::lineAdd() {
 
+	int hole=rand()%WIDTH_GRIDX;
+	auto minos = this->getChildByName("minos");
+	for (int y = 0; y < WIDTH_GRIDY; y++) {
+		for (int x = 0; x < WIDTH_GRIDX; x++) {
+			if (bode[y+1][x] > 0 &&y!= WIDTH_GRIDY-1) {
+				bode[y][x] = bode[y+1][x];
+				bode[y + 1][x] = 0;
+				minos->removeChildByTag(y*WIDTH_GRIDX + x);
+
+				//if (getChildByTag((y + 1)*WIDTH_GRIDX + x) != nullptr) {
+					auto movec = minos->getChildByTag((y + 1)*WIDTH_GRIDX + x);
+					movec->runAction(MoveBy::create(0, Vec2(0, 33)));
+					movec->setTag((y)*WIDTH_GRIDX + x);
+				//}
+			}
+			if (y == WIDTH_GRIDY - 1) {
+				if (x!=hole) {
+					bode[y][x] = Mino::yellow;
+					auto tempos = Vec2(MinoPosBottomLX+x*MINO_SQ, MinoPosBottomLY);
+					auto newmino = Sprite::create("./mino/yellow.png");
+					newmino->setPosition(tempos);
+					newmino->setTag(y*WIDTH_GRIDX + x);
+					minos->addChild(newmino);
+				}
+				else {
+					bode[y][x] = 0;
+				}
+			}
+			
+		}
+	}
 }
 
 void Tetris::onPaint(int  targetposy, int targetposx, int Width, int Height, int framepos) {
@@ -236,46 +267,117 @@ bool Tetris::init()
 	listener->onKeyPressed = [this](cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* keyEvent) {
 		if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_LEFT_ARROW)
 		{
+			
+
+			
+	
+			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
+			auto utonepos=target->getChildByName("bg")->getChildByName("uptone")->getPosition();
+			//auto dtonepos = target->getChildByName("bg")->getChildByName("downtone")->getPosition();
+
+			if ( std::abs(utonepos.y-378) <= 66) {
+		    evalgood = true;
+
+			auto good=target->getChildByName("bg")->getChildByName("good");
+			good->setVisible(true);
+			good->runAction(Sequence::create( FadeIn::create(0.2f), FadeOut::create(0.5f),nullptr));
+			}
+			else {
+				auto bad = target->getChildByName("bg")->getChildByName("bad");
+				bad->setVisible(true);
+				bad->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+				lineAdd();
+				return;
+			}
+
 			if (!Tetris::move_left()) { return; }
 
-			//cocos2d::log("left");
-			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
+
 			auto targetmino = target->getChildByName("minos")->getChildByName("target");
 			auto moveTo = MoveBy::create(0, Vec2(-33, 0));
 			targetmino->runAction(moveTo);
 		}
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_RIGHT_ARROW)
 		{
-			if (!Tetris::move_right()) { return; }
+
+
 			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
+			auto utonepos = target->getChildByName("bg")->getChildByName("uptone")->getPosition();
+			//auto dtonepos = target->getChildByName("bg")->getChildByName("downtone")->getPosition();
+
+			if (std::abs(utonepos.y - 378) <= 66) {
+				evalgood = true;
+
+				auto good = target->getChildByName("bg")->getChildByName("good");
+				good->setVisible(true);
+				good->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+			}
+			else {
+				auto bad = target->getChildByName("bg")->getChildByName("bad");
+				bad->setVisible(true);
+				bad->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+				lineAdd();
+				return;
+			}
+
+			if (!Tetris::move_right()) { return; }
+			//auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
 			auto targetmino = target->getChildByName("minos")->getChildByName("target");
 			auto moveTo = MoveBy::create(0, Vec2(33, 0));
 			targetmino->runAction(moveTo);
 		}
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW)
 		{
+
+
 			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
-			auto targetminos = target->getChildByName("minos");
-			/*	auto targetmino = target->getChildByName("minos")->getChildByName("target");*/
+			auto utonepos = target->getChildByName("bg")->getChildByName("uptone")->getPosition();
+			//auto dtonepos = target->getChildByName("bg")->getChildByName("downtone")->getPosition();
 
-				/*if (targetposx > 0 && targetposx < WIDTH_GRIDX - 1) {
-					if ((targetposx >= WIDTH_GRIDX - 2)&&(shape==Mino::kShape_i)&&(direction==0|| direction == 2)) {
+			if (std::abs(utonepos.y - 378) <= 66) {
+				evalgood = true;
 
-					}
-					else {
+				auto good = target->getChildByName("bg")->getChildByName("good");
+				good->setVisible(true);
+				good->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+			}
+			else {
+				auto bad = target->getChildByName("bg")->getChildByName("bad");
+				bad->setVisible(true);
+				bad->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+				lineAdd();
+				return;
+			}
 
-					}
-
-				}*/
-			rotateMino(targetminos);
 			//auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
-			//auto targetmino = target->getChildByName("minos")->getChildByName("target");
-			//auto moveTo = MoveBy::create(0, Vec2(0, 33));
-			//targetmino->runAction(moveTo);
+			auto targetminos = target->getChildByName("minos");
+			
+			rotateMino(targetminos);
+			
 		}
 		else if (keyCode == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW)
 		{
+
 			auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
+			auto utonepos = target->getChildByName("bg")->getChildByName("uptone")->getPosition();
+			//auto dtonepos = target->getChildByName("bg")->getChildByName("downtone")->getPosition();
+
+			if (std::abs(utonepos.y - 378) <= 66) {
+				evalgood = true;
+
+				auto good = target->getChildByName("bg")->getChildByName("good");
+				good->setVisible(true);
+				good->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+			}
+			else {
+				auto bad = target->getChildByName("bg")->getChildByName("bad");
+				bad->setVisible(true);
+				bad->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+				lineAdd();
+				return;
+			}
+
+			//auto target = static_cast<Sprite*>(keyEvent->getCurrentTarget());
 			auto targetminos = target->getChildByName("minos");
 			auto targetmino = targetminos->getChildByName("target");
 
@@ -369,10 +471,39 @@ bool Tetris::init()
 	bg->addChild(bar);
 
 	//トーン
-	auto tone = Sprite::create("tone.png");
-	//tone->setPosition(Vec2(BarPos_Center.x + 50,BarPos_Center.y));
-	tone->setPosition(Vec2(BarPos_Top.x + 50, BarPos_Top.y));
-	bg->addChild(tone);
+	auto uptone = Sprite::create("tone.png");
+	uptone->setPosition(Vec2(BarPos_Top.x + 50, BarPos_Top.y));
+	uptone->runAction(RepeatForever::create(Sequence::create(MoveTo::create(0, Vec2(BarPos_Top.x + 50, BarPos_Top.y)), MoveTo::create(0.5f, Vec2(BarPos_Center.x + 50, BarPos_Center.y)), DelayTime::create(0.1f), CallFunc::create([this]() {if (!evalgood) {
+		auto bad = this->getChildByName("bg")->getChildByName("bad");
+		bad->setVisible(true);
+		bad->runAction(Sequence::create(FadeIn::create(0.2f), FadeOut::create(0.5f), nullptr));
+		lineAdd();
+	}  evalgood = false;  }), nullptr)));
+	uptone->setName("uptone");
+	bg->addChild(uptone);
+	
+
+	auto downtone = Sprite::create("tone.png");
+	downtone->setName("downtone");
+	downtone->setPosition(Vec2(BarPos_Origin.x + 50, BarPos_Origin.y));
+
+	downtone->runAction(RepeatForever::create(Sequence::create(MoveTo::create(0, Vec2(BarPos_Origin.x + 50, BarPos_Origin.y)), MoveTo::create(0.5f, Vec2(BarPos_Center.x + 50, BarPos_Center.y)), DelayTime::create(0.1f), nullptr)));
+
+	bg->addChild(downtone);
+	//eval文字
+
+	auto good = Sprite::create("./GOOD.png");
+	good->setName("good");
+	good->setPosition(Vec2 (BarPos_Center.x -100, BarPos_Center.y));
+	good->setVisible(false);
+	bg->addChild(good);
+
+	auto BAD = Sprite::create("./BAD.png");
+	BAD->setName("bad");
+	BAD->setPosition(Vec2(BarPos_Center.x - 100, BarPos_Center.y-66));
+	BAD->setVisible(false);
+	bg->addChild(BAD);
+
 
 	//next文字
 	auto next_moji = Sprite::create("NEXTmoji.png");
