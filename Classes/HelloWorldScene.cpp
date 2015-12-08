@@ -48,29 +48,59 @@ bool HelloWorld::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
+    //画像の配置
+    //座標定義
+    FramePos = Vec2(512,378);
+    BarPos_Origin = Vec2(200,FramePos.y - 340);
+    BarPos_Center = Vec2(BarPos_Origin.x,FramePos.y);
+    BarPos_Top = Vec2(BarPos_Origin.x,BarPos_Center.y + 340);
+    //BarPos = Vec2(262,378);
+    MinoPos = Vec2(364,62);
+    CenterPos = Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y);
     
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    //背景
+    auto haikei = Sprite::create("haikei.png");
+    haikei->setPosition(CenterPos);
+    this->addChild(haikei);
     
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    //枠
+    auto flame = Sprite::create("waku2.png");
+    flame->setPosition(FramePos);
+    this->addChild(flame);
+    
+    //バー
+    auto bar = Sprite::create("bar.png");
+    bar->setAnchorPoint(Vec2(0,0));
+    bar->setPosition(BarPos_Origin);
+    this->addChild(bar);
+    
+    //トーン
+    auto tone = Sprite::create("tone.png");
+    //tone->setPosition(Vec2(BarPos_Center.x + 50,BarPos_Center.y));
+    tone->setPosition(Vec2(BarPos_Top.x + 50,BarPos_Top.y));
+    this->addChild(tone);
+    
+    //next文字
+  // auto next_moji = Sprite::create("NEXTmoji.png");
+   // next_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 50));
+   // this->addChild(next_moji);
+    
+    //next枠
+    auto next = Sprite::create("next2.png");
+    next->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 200));
+    this->addChild(next);
+    
+    //score文字
+   // auto score_moji = Sprite::create("SCOREmoji.png");
+   // score_moji->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 400));
+   // this->addChild(score_moji);
+    
+    //score枠
+    auto score = Sprite::create("score2.png");
+    score->setPosition(Vec2(BarPos_Top.x + 650,BarPos_Top.y - 500));
+    this->addChild(score);
+    
+    
     
     return true;
 }

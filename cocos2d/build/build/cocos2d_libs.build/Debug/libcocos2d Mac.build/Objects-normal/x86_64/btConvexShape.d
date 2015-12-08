@@ -1,0 +1,26 @@
+dependencies: \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btConvexShape.cpp \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btConvexShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btCollisionShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btTransform.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btMatrix3x3.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btVector3.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btScalar.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btMinMax.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btAlignedAllocator.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btQuaternion.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btQuadWord.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/BulletCollision//BroadphaseCollision/btBroadphaseProxy.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btCollisionMargin.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btTriangleShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btBoxShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btPolyhedralConvexShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btAabbUtil2.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btSphereShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btCylinderShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btConeShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btCapsuleShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btConvexHullShape.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/build/../external/bullet/LinearMath/btAlignedObjectArray.h \
+  /Users/Macaria/Ebios/Android/Cocos2d-xProject/Tetrhythm/cocos2d/external/bullet/BulletCollision/CollisionShapes/btConvexPointCloudShape.h
