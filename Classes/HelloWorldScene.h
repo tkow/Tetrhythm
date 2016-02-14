@@ -15,7 +15,6 @@ public:
     cocos2d::Vec2 BarPos_Top;
     cocos2d::Vec2 MinoPos;
     cocos2d::Vec2 CenterPos;
-	cocos2d::Vec2 FramePos;
     
     static cocos2d::Scene* createScene();
 
